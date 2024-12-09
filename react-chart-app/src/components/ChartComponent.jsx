@@ -1,40 +1,40 @@
-// Task 2: Create a Reusable ChartComponent
+// TASK 2 
+
 import React, { useEffect, useRef } from 'react';
-import { Chart } from 'chart.js/auto';
+import { Chart, registerables } from 'chart.js';
 
+// Register Chart.js components
+Chart.register(...registerables);
 
+const ChartComponent = ({ type, data, options }) => {
+  const chartRef = useRef(null);
+  const chartInstance = useRef(null);
 
-const ChartComponent = ({ chartType, chartData, chartOptions }) => {
-  const canvasRef = useRef(null);       
-  const currentChart = useRef(null);     
+  useEffect(() => { // UseEffect per notes***
+    if (chartRef && chartRef.current) {
+      const ctx = chartRef.current.getContext('2d');
 
-  // NOTES: useRef Creates a reference to canvas element
+      // If a chart instance exists, destroy it before creating a new one
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
+      }
 
-  useEffect(() => {
-    const context = canvasRef.current.getContext('2d');
-
-    // If a chart exists, destroy before creating a new one
-    if (currentChart.current) {
-      currentChart.current.destroy();
+      // Create new chart instance
+      chartInstance.current = new Chart(ctx, {
+        type,
+        data,
+        options,
+      });
     }
-
-    // creatinga new chart :)
-    currentChart.current = new Chart(context, {
-      type: chartType,
-      data: chartData,
-      options: chartOptions,
-    });
-
-    // Cleanup function to destroy the chart when the componen updates
+    // Cleanup function to destroy the chart 
     return () => {
-      if (currentChart.current) {
-        currentChart.current.destroy();
-        currentChart.current = null;
+      if (chartInstance.current) {
+        chartInstance.current.destroy();
       }
     };
-  }, [chartType, chartData, chartOptions]); 
+  }, [type, data, options]); // Re-run 
 
-  return <canvas ref={canvasRef}></canvas>; 
+  return <canvas ref={chartRef}></canvas>;
 };
 
 export default ChartComponent;

@@ -1,26 +1,32 @@
+//TASK 3 
 
-// barchart - components
 import React from 'react';
 import ChartComponent from './ChartComponent';
 
-const BarChart = ({ data }) => {
-  const chartData = {
-    labels: data.months,
+function BarChart({ months, sales }) {
+  // Setup the data in the format Chart.js expects
+  const data = {
+    labels: months,
     datasets: [
       {
-        label: 'Sales',
-        data: data.sales,
-        backgroundColor: 'rgba(75, 192, 192, 0.6)',
-      },
-    ],
+        label: 'Monthly Sales',
+        data: sales,
+        backgroundColor: 'rgba(75,192,192,0.5)'
+      }
+    ]
   };
 
   const options = {
-    plugins: { title: { display: true, text: 'Monthly Sales' }, legend: { display: false } },
     responsive: true,
+    plugins: {
+      title: {
+        display: true,
+        text: 'Bar Chart - Sales Over Time'
+      }
+    }
   };
 
-  return <ChartComponent type="bar" data={chartData} options={options} />;
-};
+  return <ChartComponent type="bar" data={data} options={options} />;
+}
 
 export default BarChart;

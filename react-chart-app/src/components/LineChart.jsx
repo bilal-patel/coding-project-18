@@ -1,27 +1,30 @@
-//Components - LineChart.jsx
+
+// TASk 3 - line charts
 import React from 'react';
 import ChartComponent from './ChartComponent';
 
-const LineChart = ({ data }) => {
-  const chartData = {
-    labels: data.months,
+function LineChart({ months, profits }) { // setting up line chart
+  const data = {
+    labels: months,
     datasets: [
       {
-        label: 'Profits',
-        data: data.profits,
-        borderColor: 'rgba(153, 102, 255, 1)',
-        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-        fill: true,
-      },
-    ],
+        label: 'Monthly Profits',
+        data: profits,
+        borderColor: 'rgba(153,102,255,1)',
+        backgroundColor: 'rgba(153,102,255,0.2)',
+        fill: true
+      }
+    ]
   };
 
   const options = {
-    plugins: { title: { display: true, text: 'Monthly Profits' }, legend: { display: false } },
     responsive: true,
+    plugins: {title: { display: true, text: 'Line Chart - Profit Over Time'
+      }
+    }
   };
 
-  return <ChartComponent type="line" data={chartData} options={options} />;
-};
+  return <ChartComponent type="line" data={data} options={options} />;
+}
 
 export default LineChart;

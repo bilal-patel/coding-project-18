@@ -1,32 +1,50 @@
+
+// Task 3 -scatter
+
 import React from 'react';
 import ChartComponent from './ChartComponent';
 
-const ScatterChart = ({ data }) => {
-  const scatterData = data.expenses.map((expense, index) => ({
-    x: expense,
-    y: data.profits[index],
-  }));
+function ScatterChart({ expenses, profits }) {
+  // Transforms into scatter points
+  const scatterData = expenses.map((exp, i) => {
+    return { x: exp, y: profits[i] };
+  });
 
-  const chartData = {
+  const data = {
     datasets: [
       {
-        label: 'Expenses vs. Profits',
+        label: 'Expenses vs Profits',
         data: scatterData,
-        backgroundColor: 'rgba(255, 99, 132, 0.6)',
-      },
-    ],
+        backgroundColor: 'rgba(255,99,132,0.5)'
+      }
+    ]
   };
 
   const options = {
-    plugins: { title: { display: true, text: 'Expenses vs. Profits' }, legend: { display: false } },
     responsive: true,
-    scales: {
-      x: { title: { display: true, text: 'Expenses' } },
-      y: { title: { display: true, text: 'Profits' } },
+    plugins: {
+      title: {
+        display: true,
+        text: 'Scatter Chart - Expenses vs Profits'
+      }
     },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Expenses'
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Profits'
+        }
+      }
+    }
   };
 
-  return <ChartComponent type="scatter" data={chartData} options={options} />;
-};
+  return <ChartComponent type="scatter" data={data} options={options} />;
+}
 
 export default ScatterChart;
